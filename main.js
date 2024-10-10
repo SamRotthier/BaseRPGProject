@@ -16,12 +16,43 @@ window.addEventListener('load', function(){
     canvas.width = GAME_WIDTH;
     canvas.height = GAME_HEIGHT;
 
-    const world = new World();
-    world.drawGrid(ctx)
+    class Game{
+        constructor(){
+            this.world = new World();
+            this.hero = new Hero({game:this, position:{x:1*TILE_SIZE , y:2* TILE_SIZE}});
+            this.input = new Input();
+        }
+        render(ctx){
+            this.hero.update();
 
-    const hero = new Hero({position:{x:5, y:5}});
-    hero.draw(ctx);
+            this.world.drawBackground(ctx); // this is the 2nd way of clearing the screen so player doesn't leave trail behind, this is drawn ontop of the old frames
+            this.world.drawGrid(ctx);
+            this.hero.draw(ctx);
+            this.world.drawForeground(ctx);
+        }
+    }
 
-    const input = new Input();
+    const game = new Game();
 
+    function animate(){
+        requestAnimationFrame(animate);
+        //ctx.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT); // 1 way of clearing the screen so player doesn't leave behind his movement
+        game.render(ctx);
+        //console.log('animating');
+    }
+    this.requestAnimationFrame(animate);
+   
+
+
+
+
+
+
+
+    // The Game class replaces the following code:
+    //const world = new World();
+    //world.drawGrid(ctx)
+    //const hero = new Hero({position:{x:5, y:5}});
+    //hero.draw(ctx);
+    //const input = new Input();
 })
