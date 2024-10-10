@@ -8,6 +8,7 @@ export const COLS = 15;
 export const ROWS = 20;
 const GAME_WIDTH = TILE_SIZE * COLS;
 const GAME_HEIGHT = TILE_SIZE * ROWS;
+export const HALF_TILE =  TILE_SIZE / 2;
 
 //Preform the code benethe after everything is loaded
 window.addEventListener('load', function(){
@@ -19,25 +20,53 @@ window.addEventListener('load', function(){
     class Game{
         constructor(){
             this.world = new World();
-            this.hero = new Hero({game:this, position:{x:1*TILE_SIZE , y:2* TILE_SIZE}});
+            this.hero = new Hero({
+                game:this, 
+                sprite: {
+                    image:document.getElementById('hero1'), 
+                    x: 0,
+                    y: 11,
+                    width: 64,
+                    height: 64},
+                position: {x: 1 * TILE_SIZE , y: 2 * TILE_SIZE},
+                scale: 1});
             this.input = new Input();
+
+            this.eventUpdate = false;
+            this.eventTimer = 0;
+            this.eventInterval = 60;
         }
-        render(ctx){
-            this.hero.update();
+        render(ctx, deltaTime){
+            this.hero.update(deltaTime);
 
             this.world.drawBackground(ctx); // this is the 2nd way of clearing the screen so player doesn't leave trail behind, this is drawn ontop of the old frames
             this.world.drawGrid(ctx);
             this.hero.draw(ctx);
             this.world.drawForeground(ctx);
+
+            if(this.eventTimer < this.eventInterval){
+                this.eventTimer += deltaTime;
+                this.eventUpdate = false;
+            } else{
+                //this.eventTimer = 0;
+                this.eventTimer = this.eventInterval % this.eventTimer;
+                this.eventUpdate = true;
+            }
         }
     }
 
     const game = new Game();
 
-    function animate(){
+    let lastTime = 0;
+    function animate(timeStamp){
         requestAnimationFrame(animate);
         //ctx.clearRect(0,0,GAME_WIDTH,GAME_HEIGHT); // 1 way of clearing the screen so player doesn't leave behind his movement
-        game.render(ctx);
+        
+        const deltaTime = timeStamp - lastTime;
+        lastTime = timeStamp;
+        //console.log(deltaTime)
+        
+        game.render(ctx, deltaTime);
         //console.log('animating');
     }
     this.requestAnimationFrame(animate);

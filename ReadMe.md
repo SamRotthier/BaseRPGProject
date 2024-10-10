@@ -1,11 +1,12 @@
-In this project i'll make a template for multiple different game types 
+In this project I'll make a template for multiple different game types 
 
-We will follow the this tutorial: https://www.youtube.com/watch?v=3OpjL1cFMtg
+I will follow this tutorial: https://www.youtube.com/watch?v=3OpjL1cFMtg
 
 Techniques:
 - different hero characters
 - Multi layered grid based game world
 - animated hero
+    - grid based movement (like pokemon)
 - grid based movement
 - collision map
 
