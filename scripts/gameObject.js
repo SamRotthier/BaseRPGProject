@@ -3,8 +3,8 @@ import { TILE_SIZE, HALF_TILE } from "../main.js"
 export class GameObject{
     constructor({game, sprite, position, scale}){
         this.game = game;
-        this.sprite = sprite ?? {image:"", x:0,y:0,width:TILE_SIZE,height:TILE_SIZE};
-        this.position = position ?? {x:0, y:0};
+        this.sprite = sprite ?? {image: "", x: 0, y: 0, width: TILE_SIZE, height: TILE_SIZE};
+        this.position = position ?? {x: 0, y: 0};
         this.scale = scale ?? 1;
 
         this.destinationPosition = {x: this.position.x, y: this.position.y};
@@ -14,6 +14,7 @@ export class GameObject{
         this.halfwidth = this.width / 2;
         this.height = this.sprite.height * this.scale;
     }
+
     moveTowards(destinationPosition,speed){
         this.distanceToTravel.x = destinationPosition.x - this.position.x;
         this.distanceToTravel.y = destinationPosition.y - this.position.y;
@@ -38,23 +39,26 @@ export class GameObject{
             distance = Math.hypot(this.distanceToTravel.x, this.distanceToTravel.y);
         }
         return distance;
-
     }
+
     draw(ctx){
-        ctx.fillStyle = 'blue'; //handy for collision mapping
-        ctx.fillRect(
-            this.position.x,
-            this.position.y,
-            TILE_SIZE,
-            TILE_SIZE
-        )
-        ctx.strokeStyle = 'yellow'; 
-        ctx.strokeRect(
-            this.destinationPosition.x,
-            this.destinationPosition.y,
-            TILE_SIZE,
-            TILE_SIZE
-        )
+        if(this.game.debug){
+            ctx.fillStyle = 'blue'; //handy for collision mapping
+            ctx.fillRect(
+                this.position.x,
+                this.position.y,
+                TILE_SIZE,
+                TILE_SIZE
+            )
+    
+            ctx.strokeStyle = 'yellow'; 
+            ctx.strokeRect(
+                this.destinationPosition.x,
+                this.destinationPosition.y,
+                TILE_SIZE,
+                TILE_SIZE
+            )
+        }
 
         ctx.drawImage(
             this.sprite.image,
@@ -67,5 +71,4 @@ export class GameObject{
             this.width,
             this.height)
     }
-
 }

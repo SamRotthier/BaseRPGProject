@@ -37,21 +37,24 @@ export class Hero extends GameObject{
                 nextX += TILE_SIZE;
                 this.sprite.y = 11;
             }
-            this.destinationPosition.x = nextX;
-            this.destinationPosition.y = nextY;
+            const col = nextX / TILE_SIZE;
+            const row = nextY / TILE_SIZE;
+            if(this.game.world.getTile(this.game.world.level1.collisionLayer, row, col) !== 1){
+                this.destinationPosition.x = nextX;
+                this.destinationPosition.y = nextY;
+            }
         }
 
-        if(this.game.input.keys.length >0 || !arrived){
+        if(this.game.input.keys.length > 0 || !arrived){
             this.moving = true;
         }else{
             this.moving = false;
         }
 
         if(this.game.eventUpdate && this.moving){
-            this.sprite.x<this.maxFrame? this.sprite.x++ : this.sprite.x = 0;
+            this.sprite.x < this.maxFrame ? this.sprite.x++ : this.sprite.x = 0;
         }else if (!this.moving){
             this.sprite.x = 0;
         }
-        
     }
 }
