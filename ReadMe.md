@@ -12,3 +12,6 @@ Techniques:
 Technologies:
 - Html/css
 - Javascript
+
+
+We use the plugin "Live Server" to get over the Cors restrictions
