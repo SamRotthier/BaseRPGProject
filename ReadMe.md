@@ -6,8 +6,7 @@ Techniques:
 - different hero characters
 - Multi layered grid based game world
 - animated hero
-    - grid based movement (like pokemon)
-- grid based movement
+- grid based movement (like pokemon)
 - collision map
 
 Technologies:
